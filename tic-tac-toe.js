@@ -1,11 +1,15 @@
 
+
 document.addEventListener("DOMContentLoaded", function() {
 
+    // Select the board squares and game elements
     const squares = document.querySelectorAll("#board div");
     const status = document.getElementById("status");
+    const newGameButton = document.querySelector("button");
+    const originalStatus = status.textContent;
 
+    // Game variables
     let currentPlayer = "X";
-
     let gameBoard = ["", "", "", "", "", "", "", "", ""];
 
     // All 8 possible winning combinations
@@ -20,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
         [2, 4, 6]
     ];
 
-    // Set up each square
+    // Exercise 1, 2 and 3 - Set up the board
     squares.forEach(function(square, index) {
 
         square.classList.add("square");
@@ -31,10 +35,10 @@ document.addEventListener("DOMContentLoaded", function() {
             square.textContent = currentPlayer;
             square.classList.add(currentPlayer);
 
-            // Update the game board
+            // Update the internal game board
             gameBoard[index] = currentPlayer;
 
-            // Check whether someone has won
+            // Exercise 4 - Check for a winner
             const winner = checkWinner();
 
             if (winner !== null) {
@@ -49,19 +53,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
         });
 
-        // Mouse enters square
+        // Add hover effect
         square.addEventListener("mouseover", function() {
             square.classList.add("hover");
         });
 
-        // Mouse leaves square
+        // Remove hover effect
         square.addEventListener("mouseout", function() {
             square.classList.remove("hover");
         });
 
     });
 
-    // Check for a winner
+    // Exercise 4 - Winner detection
     function checkWinner() {
 
         for (let combination of winningCombinations) {
@@ -79,5 +83,26 @@ document.addEventListener("DOMContentLoaded", function() {
 
         return null;
     }
+
+    // Exercise 5 - Restart the game
+    newGameButton.addEventListener("click", function() {
+
+        // Reset the current player
+        currentPlayer = "X";
+
+        // Clear the internal game board
+        gameBoard = ["", "", "", "", "", "", "", "", ""];
+
+        // Clear all nine squares
+        squares.forEach(function(square) {
+            square.textContent = "";
+            square.classList.remove("X", "O", "hover");
+        });
+
+        // Restore the original status message
+        status.textContent = originalStatus;
+        status.classList.remove("you-won");
+
+    });
 
 });
